@@ -8,9 +8,19 @@ export const Loader = styled.div`
   align-items: center;
 `;
 
+export const ImgContainer = styled.div`
+  display: grid;
+  place-items: center;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+  max-width: 90vw;
+  margin: 0 auto;
+  margin-top: 60px;
+`;
+
 export const Img = styled(motion.img)`
-  width: 200px;
-  border-radius: 20px;
+  width: 165px;
+  border-radius: 10px;
   cursor: pointer;
 `;
 
