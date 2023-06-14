@@ -11,9 +11,15 @@ const root = ReactDOM.createRoot(rootElement);
 const client = new QueryClient();
 
 const GlobalStyle = createGlobalStyle`
+  * {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+  }
+
   body {
     background-color: black;
-    color: white;
+    color: #dddddd;
     font-family: sans-serif;
   }
   a {

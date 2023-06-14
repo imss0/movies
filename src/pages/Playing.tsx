@@ -1,26 +1,36 @@
-import { Loader, ImgContainer, Img, ImgVariants } from "../styles";
+import {
+  Loader,
+  Container,
+  Img,
+  ImgTitle,
+  ImgVariants,
+  ImgContainer,
+  ImgContainerVariants,
+  ContainerVariants,
+} from "./styles";
 import { useQuery } from "@tanstack/react-query";
 import { getNowPlaying, makeImagePath, IMovieDetail } from "../api";
 
-export default function Playing() {
-  const { isLoading, data } = useQuery(["movies", "nowplaying"], getNowPlaying);
+export default function Upcoming() {
+  const { isLoading, data } = useQuery(["movies", "upcoming"], getNowPlaying);
   const movies = data?.results;
-
   return (
     <div>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
-        <ImgContainer>
+        <Container variants={ContainerVariants} initial="start" animate="end">
           {movies.map((movie: IMovieDetail) => (
-            <Img
-              variants={ImgVariants}
-              whileHover="hover"
-              src={makeImagePath(movie.poster_path)}
-              key={movie.id}
-            />
+            <ImgContainer variants={ImgContainerVariants} key={movie.id}>
+              <Img
+                variants={ImgVariants}
+                whileHover="hover"
+                src={makeImagePath(movie.poster_path)}
+              />
+              <ImgTitle>{movie.title}</ImgTitle>
+            </ImgContainer>
           ))}
-        </ImgContainer>
+        </Container>
       )}
     </div>
   );
