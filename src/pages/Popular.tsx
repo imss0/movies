@@ -9,22 +9,34 @@ import {
   ContainerVariants,
 } from "./styles";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { getPopular, makeImagePath, IMovieDetail } from "../api";
-import { useAnimation } from "framer-motion";
-import { useEffect } from "react";
 
 export default function Upcoming() {
   const { isLoading, data } = useQuery(["movies", "upcoming"], getPopular);
   const movies = data?.results;
+  const navigate = useNavigate();
 
+  const onBoxClicked = (movieId: number) => {
+    navigate(`/${movieId}`);
+  };
   return (
     <div>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
-        <Container variants={ContainerVariants} initial="start" animate="end">
+        <Container
+          variants={ContainerVariants}
+          initial="start"
+          animate="end"
+          exit="exit"
+        >
           {movies.map((movie: IMovieDetail) => (
-            <ImgContainer variants={ImgContainerVariants} key={movie.id}>
+            <ImgContainer
+              variants={ImgContainerVariants}
+              key={movie.id}
+              onClick={onBoxClicked}
+            >
               <Img
                 variants={ImgVariants}
                 whileHover="hover"

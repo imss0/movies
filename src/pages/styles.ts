@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
+interface ImgContainerProps {
+  variants: any;
+  key: number;
+  onClick: any;
+}
+
 export const Loader = styled.div`
   height: 20vh;
   display: flex;
@@ -18,7 +24,7 @@ export const Container = styled(motion.div)`
   margin-top: 70px;
 `;
 
-export const ImgContainer = styled(motion.div)`
+export const ImgContainer = styled(motion.div)<ImgContainerProps>`
   width: 165px;
   height: 300px;
   display: flex;
@@ -44,8 +50,14 @@ export const ContainerVariants = {
     transition: {
       type: "spring",
       durtaion: 0.5,
-      staggerChildren: 0.25,
-      staggerDirection: 1,
+      staggerChildren: 0.1,
+      delayChildren: 0.3,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.5,
     },
   },
 };
@@ -55,6 +67,7 @@ export const ImgContainerVariants = {
   end: {
     opacity: 1,
     scale: 1,
+    delay: 0.5,
   },
 };
 

@@ -21,7 +21,11 @@ export default function Upcoming() {
       ) : (
         <Container variants={ContainerVariants} initial="start" animate="end">
           {movies.map((movie: IMovieDetail) => (
-            <ImgContainer variants={ImgContainerVariants} key={movie.id}>
+            <ImgContainer
+              variants={ImgContainerVariants}
+              key={movie.id}
+              onClick={() => console.log("hi")}
+            >
               <Img
                 variants={ImgVariants}
                 whileHover="hover"
