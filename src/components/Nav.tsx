@@ -1,10 +1,11 @@
-import { Link, useMatch } from "react-router-dom";
-import { NavContainer, NavText, Indicator } from './nav.styles'
+import { Link, useMatch, useParams } from "react-router-dom";
+import { NavContainer, NavText, Indicator } from "./nav.styles";
 
 export default function Nav() {
   const homeMatch = useMatch("/");
   const upcomingMatch = useMatch("coming-soon");
   const nowplayingMatch = useMatch("now-playing");
+
   return (
     <NavContainer>
       <NavText>

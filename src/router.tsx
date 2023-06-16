@@ -12,6 +12,7 @@ export const router = createBrowserRouter([
       {
         path: "",
         element: <Popular />,
+        children: [{ path: ":movieId", element: <h2>hi there</h2> }],
       },
       {
         path: "now-playing",

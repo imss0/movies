@@ -44,6 +44,28 @@ export const ImgTitle = styled.p`
   font-weight: 600;
 `;
 
+export const Overlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+`;
+
+export const Modal = styled(motion.div)`
+  position: fixed;
+  width: 65vw;
+  height: 80vh;
+  border-radius: 15px;
+  background-color: white;
+  opacity: 0.5;
+  top: 50%;
+  left: 50%;
+  margin-left: -32.5vw;
+  margin-top: -40vh;
+`;
+
 export const ContainerVariants = {
   start: {},
   end: {

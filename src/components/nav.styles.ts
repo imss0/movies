@@ -19,8 +19,8 @@ export const NavText = styled.p`
 `;
 
 export const Indicator = styled(motion.span)`
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   position: absolute;
   background-color: tomato;
   border-radius: 50%;
