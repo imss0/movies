@@ -10,9 +10,10 @@ import {
 } from "./styles";
 import { useQuery } from "@tanstack/react-query";
 import { getNowPlaying, makeImagePath, IMovieDetail } from "../api";
+import useMovieDetail from '../hooks/useMovieDetail';
 
 export default function Upcoming() {
-  const { isLoading, data } = useQuery(["movies", "upcoming"], getNowPlaying);
+  const { isLoading, data } = useQuery(["nowPlaying"], getNowPlaying);
   const movies = data?.results;
   return (
     <div>

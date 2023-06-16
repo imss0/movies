@@ -55,15 +55,23 @@ export const Overlay = styled(motion.div)`
 
 export const Modal = styled(motion.div)`
   position: fixed;
-  width: 65vw;
+  width: 75vw;
   height: 80vh;
   border-radius: 15px;
-  background-color: white;
-  opacity: 0.5;
+  background-color: #222222;
+  opacity: 1;
   top: 50%;
   left: 50%;
-  margin-left: -32.5vw;
+  margin-left: -37.5vw;
   margin-top: -40vh;
+`;
+
+export const ModalImage = styled.div`
+  width: 100%;
+  background-size: cover;
+  background-position: top;
+  height: 60%;
+  border-radius: 15px;
 `;
 
 export const ContainerVariants = {

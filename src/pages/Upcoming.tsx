@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getComingSoon, makeImagePath, IMovieDetail } from "../api";
 
 export default function Upcoming() {
-  const { isLoading, data } = useQuery(["movies", "upcoming"], getComingSoon);
+  const { isLoading, data } = useQuery(["upcoming"], getComingSoon);
   const movies = data?.results;
   return (
     <div>
