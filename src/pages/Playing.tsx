@@ -1,42 +1,42 @@
-import {
-  Loader,
-  Container,
-  Img,
-  ImgTitle,
-  ImgVariants,
-  ImgContainer,
-  ImgContainerVariants,
-  ContainerVariants,
-} from "./styles";
+import { Container, ContainerVariants, Loader } from "./styles";
 import { useQuery } from "@tanstack/react-query";
-import { getNowPlaying, makeImagePath, IMovieDetail } from "../api";
-import useMovieDetail from '../hooks/useMovieDetail';
+import { useMatch } from "react-router-dom";
+import { getNowPlaying, IMovieDetail } from "../api";
+import { AnimatePresence } from "framer-motion";
+import MovieList from "../components/MovieList";
+import MovieDetailModal from "../components/MovieDetailModal";
 
 export default function Upcoming() {
-  const { isLoading, data } = useQuery(["nowPlaying"], getNowPlaying);
+  const { isLoading, data } = useQuery(["nowplaying"], getNowPlaying);
   const movies = data?.results;
+  const match = useMatch(":movieId");
+
   return (
-    <div>
+    <>
       {isLoading ? (
         <Loader>Loading...</Loader>
       ) : (
-        <Container variants={ContainerVariants} initial="start" animate="end">
-          {movies.map((movie: IMovieDetail) => (
-            <ImgContainer
-              variants={ImgContainerVariants}
-              key={movie.id}
-              onClick={() => console.log("hi")}
-            >
-              <Img
-                variants={ImgVariants}
-                whileHover="hover"
-                src={makeImagePath(movie.poster_path)}
+        <>
+          <Container
+            variants={ContainerVariants}
+            initial="start"
+            animate="end"
+            exit="exit"
+          >
+            {movies.map((movie: IMovieDetail) => (
+              <MovieList
+                key={movie.id}
+                id={movie.id}
+                poster_path={movie.poster_path}
+                title={movie.original_title}
               />
-              <ImgTitle>{movie.title}</ImgTitle>
-            </ImgContainer>
-          ))}
-        </Container>
+            ))}
+          </Container>
+          <AnimatePresence>
+            {match ? <MovieDetailModal /> : null}
+          </AnimatePresence>
+        </>
       )}
-    </div>
+    </>
   );
 }

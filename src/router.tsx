@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Popular from "./pages/Popular";
 import Playing from "./pages/Playing";
 import Upcoming from "./pages/Upcoming";
+import MovieDetailModal from "./components/MovieDetailModal";
 
 export const router = createBrowserRouter([
   {
@@ -12,7 +13,7 @@ export const router = createBrowserRouter([
       {
         path: "",
         element: <Popular />,
-        children: [{ path: ":movieId", element: <h2>hi there</h2> }],
+        children: [{ path: "/:movieId", element: <MovieDetailModal /> }],
       },
       {
         path: "now-playing",
