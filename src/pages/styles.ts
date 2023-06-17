@@ -56,14 +56,19 @@ export const Overlay = styled(motion.div)`
 export const Modal = styled(motion.div)`
   position: fixed;
   width: 75vw;
-  height: 80vh;
+  height: 90vh;
   border-radius: 15px;
   background-color: #222222;
   opacity: 1;
   top: 50%;
   left: 50%;
   margin-left: -37.5vw;
-  margin-top: -40vh;
+  margin-top: -45vh;
+  overflow: scroll;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ModalImage = styled.div`
@@ -72,6 +77,27 @@ export const ModalImage = styled.div`
   background-position: top;
   height: 60%;
   border-radius: 15px;
+`;
+
+export const ModalTitle = styled.h1`
+  margin: 16px;
+`;
+
+export const ModalText = styled.p`
+  margin: 16px;
+  word-break: break-all;
+`;
+
+export const ModalCloseButton = styled.button`
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(256, 256, 256, 0.9);
+  border: none;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  cursor: pointer;
 `;
 
 export const ContainerVariants = {

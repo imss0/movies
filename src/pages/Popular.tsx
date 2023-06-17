@@ -10,7 +10,11 @@ import {
   ContainerVariants,
   Overlay,
   ModalImage,
+  ModalTitle,
+  ModalText,
+  ModalCloseButton,
 } from "./styles";
+import { XMarkIcon } from "../assets/XMarkIcon";
 import { useQuery } from "@tanstack/react-query";
 import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { getPopular, makeImagePath, IMovieDetail, makeBgPath } from "../api";
@@ -23,7 +27,7 @@ export default function Upcoming() {
   const navigate = useNavigate();
   const match = useMatch(":movieId");
   const movieDetail = useMovieDetail(match?.params.movieId + "");
-  console.log(movieDetail);
+
   const onBoxClicked = (movieId: number) => {
     navigate(`/${movieId}`);
   };
@@ -66,6 +70,9 @@ export default function Upcoming() {
             <Modal layoutId={match.params.movieId + ""}>
               {movieDetail && (
                 <>
+                  <ModalCloseButton onClick={onOverlayClick}>
+                    <XMarkIcon />
+                  </ModalCloseButton>
                   <ModalImage
                     style={{
                       backgroundImage: `linear-gradient(transparent,#222222), url(${makeBgPath(
@@ -73,15 +80,31 @@ export default function Upcoming() {
                       )})`,
                     }}
                   />
-                  <h2>{movieDetail.title}</h2>
-                  <p>{movieDetail.overview}</p>
-                  <p>budget:${movieDetail.budget}</p>
-                  <p>Revenue:${movieDetail.revenue}</p>
-                  <p>Runtime: {movieDetail.runtime} minutes</p>
-                  <p>Rating: {movieDetail.vote_average}</p>
-                  <a href={movieDetail.homepage} target="_blank">
-                    Homepage:{movieDetail.homepage}
-                  </a>
+                  <ModalTitle>{movieDetail.title}</ModalTitle>
+                  <ModalText>{movieDetail.overview}</ModalText>
+                  <ModalText>
+                    Budget:
+                    {movieDetail.budget.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </ModalText>
+                  <ModalText>
+                    Revenue:
+                    {movieDetail.revenue.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })}
+                  </ModalText>
+                  <ModalText>Runtime: {movieDetail.runtime} minutes</ModalText>
+                  <ModalText>
+                    Rating: {movieDetail.vote_average.toFixed(1)}
+                  </ModalText>
+                  {movieDetail.homepage ? (
+                    <a href={movieDetail.homepage} target="_blank">
+                      <ModalText>Homepage:{movieDetail.homepage}</ModalText>
+                    </a>
+                  ) : null}
                 </>
               )}
             </Modal>
