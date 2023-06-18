@@ -24,7 +24,7 @@ const ImgTitle = styled.p`
 `;
 
 const ImgContainerVariants = {
-  start: { opacity: 0, scale: 0.5 },
+  start: { opacity: 0, scale: 0 },
   end: {
     opacity: 1,
     scale: 1,
@@ -44,7 +44,7 @@ interface MovieListProps {
 
 const MovieList: React.FC<MovieListProps> = ({ id, poster_path, title }) => {
   const navigate = useNavigate();
-  const onBoxClicked = (movieId: number) => {
+  const onBoxClicked = (movieId: string) => {
     navigate(`${movieId}`);
   };
 
@@ -52,8 +52,8 @@ const MovieList: React.FC<MovieListProps> = ({ id, poster_path, title }) => {
     <ImgContainer
       variants={ImgContainerVariants}
       key={id}
-      layoutId={id + ""}
-      onClick={() => onBoxClicked(id)}
+      layoutId={String(id)}
+      onClick={() => onBoxClicked(String(id))}
     >
       <Img
         variants={ImgVariants}

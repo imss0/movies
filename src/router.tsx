@@ -10,24 +10,18 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <MovieListLayout prop="popular" />,
-        children: [
-          { path: ":movieId", element: <MovieDetailModal prop="popular" /> },
-        ],
+        element: <MovieListLayout page="popular" />,
+        children: [{ path: ":movieId", element: <MovieDetailModal /> }],
       },
       {
         path: "now-playing",
-        element: <MovieListLayout prop="playing" />,
-        children: [
-          { path: ":movieId", element: <MovieDetailModal prop="popular" /> },
-        ],
+        element: <MovieListLayout page="playing" />,
+        children: [{ path: ":movieId", element: <MovieDetailModal /> }],
       },
       {
         path: "coming-soon",
-        element: <MovieListLayout prop="upcoming" />,
-        children: [
-          { path: ":movieId", element: <MovieDetailModal prop="popular" /> },
-        ],
+        element: <MovieListLayout page="upcoming" />,
+        children: [{ path: ":movieId", element: <MovieDetailModal /> }],
       },
     ],
   },

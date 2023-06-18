@@ -1,18 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPopular, getComingSoon, getNowPlaying } from "../api";
-import { IMovieDetail } from "../api";
 
 interface IUseFetchMovies {
-  prop: string;
+  page: string;
 }
 
-export function useFetchMovies({ prop }: IUseFetchMovies) {
-  return useQuery([`${prop}`], () => {
-    if (prop === "popular") {
+export function useFetchMovies({ page }: IUseFetchMovies) {
+  return useQuery([`${page}`], () => {
+    if (page === "popular") {
       return getPopular();
-    } else if (prop === "upcoming") {
+    } else if (page === "upcoming") {
       return getComingSoon();
-    } else if (prop === "playing") {
+    } else if (page === "playing") {
       return getNowPlaying();
     }
   });

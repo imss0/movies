@@ -1,10 +1,10 @@
 import styled from "styled-components";
+import { IMovieDetail } from "../api";
 import { motion, AnimatePresence } from "framer-motion";
-import { useMatch } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useFetchMovies } from "../hooks/useFetchMovies";
 import MovieList from "../components/MovieList";
 import MovieDetailModal from "../components/MovieDetailModal";
-import { IMovieDetail } from "../api";
-import { useFetchMovies } from "../hooks/useFetchMovies";
 
 const Loader = styled.div`
   height: 20vh;
@@ -42,19 +42,12 @@ const ContainerVariants = {
 };
 
 interface IMovieListLayoutProps {
-  prop: string;
+  page: string;
 }
 
-export default function MovieListLayout({ prop }: IMovieListLayoutProps) {
-  let detailMatch;
-  if (prop === "popular") {
-    detailMatch = useMatch(":movieId");
-  } else if (prop === "upcoming") {
-    detailMatch = useMatch("/coming-soon/:movieId");
-  } else if (prop === "playing") {
-    detailMatch = useMatch("/now-playing/:movieId");
-  }
-  const { data, isLoading } = useFetchMovies({ prop });
+export default function MovieListLayout({ page }: IMovieListLayoutProps) {
+  const param = useParams();
+  const { data, isLoading } = useFetchMovies({ page });
   const movies = data?.results;
 
   return (
@@ -63,23 +56,25 @@ export default function MovieListLayout({ prop }: IMovieListLayoutProps) {
         <Loader>Loading...</Loader>
       ) : (
         <>
-          <Container
-            variants={ContainerVariants}
-            initial="start"
-            animate="end"
-            exit="exit"
-          >
-            {movies.map((movie: IMovieDetail) => (
-              <MovieList
-                key={movie.id}
-                id={movie.id}
-                poster_path={movie.poster_path}
-                title={movie.original_title}
-              />
-            ))}
-          </Container>
           <AnimatePresence>
-            {detailMatch ? <MovieDetailModal prop={prop} /> : null}
+            <Container
+              variants={ContainerVariants}
+              initial="start"
+              animate="end"
+              exit="exit"
+            >
+              {movies.map((movie: IMovieDetail) => (
+                <MovieList
+                  key={movie.id}
+                  id={movie.id}
+                  poster_path={movie.poster_path}
+                  title={movie.original_title}
+                />
+              ))}
+            </Container>
+          </AnimatePresence>
+          <AnimatePresence>
+            {param.movieId ? <MovieDetailModal /> : null}
           </AnimatePresence>
         </>
       )}

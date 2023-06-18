@@ -2,7 +2,7 @@ import { Link, useMatch } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-const NavContainer = styled.div`
+export const NavContainer = styled.div`
   max-width: 350px;
   display: flex;
   justify-content: space-between;

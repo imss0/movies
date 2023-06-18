@@ -1,9 +1,9 @@
-import { useMatch, useNavigate, useParams } from "react-router-dom";
-import { IMovieDetail, makeBgPath } from "../api";
+import { useNavigate, useParams } from "react-router-dom";
+import { makeBgPath, IMovieDetail } from "../api";
 import { XMarkIcon } from "../assets/XMarkIcon";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
-import useMovieDetail from "../hooks/useMovieDetail";
+import useFetchMovieDetail from "../hooks/useFetchMovieDetail";
 
 const Overlay = styled(motion.div)`
   position: fixed;
@@ -29,6 +29,15 @@ const Modal = styled(motion.div)`
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
+  }
+  @media only screen and (max-width: 480px) {
+    height: 70vh;
+    margin-top: -35vh;
+  }
+
+  @media only screen and (min-width: 768px) {
+    width: 60vw;
+    margin-left: -30vw;
   }
 `;
 
@@ -68,25 +77,28 @@ const Loader = styled.div`
   align-items: center;
 `;
 
-interface IMovieDetailProps {
-  prop: string;
-}
-
-const MovieDetailModal = ({ prop }: IMovieDetailProps) => {
+const MovieDetailModal = () => {
   const navigate = useNavigate();
-  const [movieDetail, movieDetailLoading] = useMovieDetail(prop);
+  const [movieDetail, movieDetailLoading] = useFetchMovieDetail();
   const onOverlayClick = () => {
     navigate(-1);
   };
 
+  const { movieId } = useParams();
 
   return (
     <>
-      <Overlay onClick={onOverlayClick} animate={{ opacity: 1 }} />
+      <Overlay
+        onClick={onOverlayClick}
+        exit={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      />
+      {/* <AnimatePresence onExitComplete={onOverlayClick}> */}
       <Modal
-        layoutId={movieDetail?.id}
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
+        layoutId={String(movieId)}
+        exit={{ scale: 0 }}
+        initial="hidden"
+        animate="visible"
       >
         {movieDetailLoading ? (
           <Loader>Loading...</Loader>
@@ -124,7 +136,10 @@ const MovieDetailModal = ({ prop }: IMovieDetailProps) => {
             </ModalText>
             <ModalText>Runtime: {movieDetail.runtime} minutes</ModalText>
             <ModalText>
-              Rating: {movieDetail.vote_average?.toFixed(1)}
+              Rating:{" "}
+              {movieDetail.vote_average > 0
+                ? movieDetail.vote_average?.toFixed(1)
+                : "Not disclosed"}
             </ModalText>
             {movieDetail.homepage ? (
               <a href={movieDetail.homepage} target="_blank">
@@ -134,6 +149,7 @@ const MovieDetailModal = ({ prop }: IMovieDetailProps) => {
           </>
         )}
       </Modal>
+      {/* </AnimatePresence> */}
     </>
   );
 };
