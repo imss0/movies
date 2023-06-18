@@ -2,14 +2,14 @@ import { Link, useMatch } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-export const NavContainer = styled.div`
+const NavContainer = styled.div`
   max-width: 350px;
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
 `;
 
-export const NavText = styled.p`
+const NavText = styled.p`
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
@@ -19,7 +19,7 @@ export const NavText = styled.p`
   margin-top: 10px;
 `;
 
-export const Indicator = styled(motion.span)`
+const Indicator = styled(motion.span)`
   width: 6px;
   height: 6px;
   position: absolute;
@@ -30,7 +30,6 @@ export const Indicator = styled(motion.span)`
   right: 0;
   margin: 0 auto;
 `;
-
 
 export default function Nav() {
   const homeMatch = useMatch("/");

@@ -1,11 +1,11 @@
-import { useMatch, useNavigate } from "react-router-dom";
-import { makeBgPath, getMovie } from "../api";
+import { useMatch, useNavigate, useParams } from "react-router-dom";
+import { IMovieDetail, makeBgPath } from "../api";
 import { XMarkIcon } from "../assets/XMarkIcon";
-import { useQuery } from "@tanstack/react-query";
-import styled from "styled-components";
 import { motion } from "framer-motion";
+import styled from "styled-components";
+import useMovieDetail from "../hooks/useMovieDetail";
 
-export const Overlay = styled(motion.div)`
+const Overlay = styled(motion.div)`
   position: fixed;
   top: 0;
   width: 100%;
@@ -14,7 +14,7 @@ export const Overlay = styled(motion.div)`
   opacity: 0;
 `;
 
-export const Modal = styled(motion.div)`
+const Modal = styled(motion.div)`
   position: fixed;
   width: 75vw;
   height: 90vh;
@@ -32,7 +32,7 @@ export const Modal = styled(motion.div)`
   }
 `;
 
-export const ModalImage = styled.div`
+const ModalImage = styled.div`
   width: 100%;
   background-size: cover;
   background-position: top;
@@ -40,50 +40,54 @@ export const ModalImage = styled.div`
   border-radius: 15px;
 `;
 
-export const ModalTitle = styled.h1`
+const ModalTitle = styled.h1`
   margin: 16px;
 `;
 
-export const ModalText = styled.p`
+const ModalText = styled.p`
   margin: 16px;
   word-break: break-all;
 `;
 
-export const ModalCloseButton = styled.button`
+const ModalCloseButton = styled.button`
   width: 36px;
   height: 36px;
   border-radius: 50%;
   background-color: rgba(256, 256, 256, 0.7);
   border: none;
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 24px;
+  right: 24px;
   cursor: pointer;
 `;
 
-export const Loader = styled.div`
+const Loader = styled.div`
   height: 20vh;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const MovieDetailModal = () => {
-  const match = useMatch(":movieId");
+interface IMovieDetailProps {
+  prop: string;
+}
+
+const MovieDetailModal = ({ prop }: IMovieDetailProps) => {
   const navigate = useNavigate();
-  const movieId = match?.params.movieId;
-  const { data: movieDetail, isLoading: movieDetailLoading } = useQuery(
-    ["movie", movieId],
-    () => getMovie(movieId as string)
-  );
+  const [movieDetail, movieDetailLoading] = useMovieDetail(prop);
   const onOverlayClick = () => {
     navigate(-1);
   };
 
+
   return (
     <>
       <Overlay onClick={onOverlayClick} animate={{ opacity: 1 }} />
-      <Modal layoutId={match?.params.movieId + ""}>
+      <Modal
+        layoutId={movieDetail?.id}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+      >
         {movieDetailLoading ? (
           <Loader>Loading...</Loader>
         ) : (

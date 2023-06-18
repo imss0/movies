@@ -1,9 +1,7 @@
 import App from "./App";
 import { createBrowserRouter } from "react-router-dom";
-import Popular from "./pages/Popular";
-import Playing from "./pages/Playing";
-import Upcoming from "./pages/Upcoming";
 import MovieDetailModal from "./components/MovieDetailModal";
+import MovieListLayout from "./components/MovieListLayout";
 
 export const router = createBrowserRouter([
   {
@@ -12,16 +10,24 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Popular />,
-        children: [{ path: "/:movieId", element: <MovieDetailModal /> }],
+        element: <MovieListLayout prop="popular" />,
+        children: [
+          { path: ":movieId", element: <MovieDetailModal prop="popular" /> },
+        ],
       },
       {
         path: "now-playing",
-        element: <Playing />,
+        element: <MovieListLayout prop="playing" />,
+        children: [
+          { path: ":movieId", element: <MovieDetailModal prop="popular" /> },
+        ],
       },
       {
         path: "coming-soon",
-        element: <Upcoming />,
+        element: <MovieListLayout prop="upcoming" />,
+        children: [
+          { path: ":movieId", element: <MovieDetailModal prop="popular" /> },
+        ],
       },
     ],
   },

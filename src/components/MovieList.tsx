@@ -3,27 +3,27 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-export const ImgContainer = styled(motion.div)`
+const ImgContainer = styled(motion.div)`
   width: 165px;
   height: 300px;
   display: flex;
   flex-direction: column;
 `;
 
-export const Img = styled(motion.img)`
+const Img = styled(motion.img)`
   width: 165px;
   border-radius: 10px;
   cursor: pointer;
   margin: 0 auto;
 `;
 
-export const ImgTitle = styled.p`
+const ImgTitle = styled.p`
   font-size: 14px;
   text-align: center;
   font-weight: 600;
 `;
 
-export const ImgContainerVariants = {
+const ImgContainerVariants = {
   start: { opacity: 0, scale: 0.5 },
   end: {
     opacity: 1,
@@ -32,7 +32,7 @@ export const ImgContainerVariants = {
   },
 };
 
-export const ImgVariants = {
+const ImgVariants = {
   hover: { scale: 1.2, y: -30 },
 };
 
@@ -45,7 +45,7 @@ interface MovieListProps {
 const MovieList: React.FC<MovieListProps> = ({ id, poster_path, title }) => {
   const navigate = useNavigate();
   const onBoxClicked = (movieId: number) => {
-    navigate(`/${movieId}`);
+    navigate(`${movieId}`);
   };
 
   return (
