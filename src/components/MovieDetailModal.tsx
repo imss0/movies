@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { makeBgPath, IMovieDetail } from "../api";
+import { makeBgPath } from "../api";
 import { XMarkIcon } from "../assets/XMarkIcon";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import useFetchMovieDetail from "../hooks/useFetchMovieDetail";
 
@@ -80,7 +80,7 @@ const Loader = styled.div`
 const MovieDetailModal = () => {
   const navigate = useNavigate();
   const [movieDetail, movieDetailLoading] = useFetchMovieDetail();
-  const onOverlayClick = () => {
+  const handleClose = () => {
     navigate(-1);
   };
 
@@ -88,23 +88,17 @@ const MovieDetailModal = () => {
 
   return (
     <>
-      <Overlay
-        onClick={onOverlayClick}
-        exit={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      />
-      {/* <AnimatePresence onExitComplete={onOverlayClick}> */}
-      <Modal
-        layoutId={String(movieId)}
-        exit={{ scale: 0 }}
-        initial="hidden"
-        animate="visible"
-      >
-        {movieDetailLoading ? (
-          <Loader>Loading...</Loader>
-        ) : (
-          <>
-            <ModalCloseButton onClick={onOverlayClick}>
+      {movieDetailLoading ? (
+        <Loader>Loading...</Loader>
+      ) : (
+        <>
+          <Overlay
+            onClick={handleClose}
+            exit={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          />
+          <Modal layoutId={String(movieId)}>
+            <ModalCloseButton onClick={handleClose}>
               <XMarkIcon />
             </ModalCloseButton>
             <ModalImage
@@ -142,14 +136,13 @@ const MovieDetailModal = () => {
                 : "Not disclosed"}
             </ModalText>
             {movieDetail.homepage ? (
-              <a href={movieDetail.homepage} target="_blank">
+              <a href={movieDetail.homepage} target="_blank" rel="noreferrer">
                 <ModalText>Homepage: {movieDetail.homepage}</ModalText>
               </a>
             ) : null}
-          </>
-        )}
-      </Modal>
-      {/* </AnimatePresence> */}
+          </Modal>
+        </>
+      )}
     </>
   );
 };
