@@ -1,4 +1,4 @@
-import { Link, useMatch } from "react-router-dom";
+import { Link, useLocation, useMatch, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
@@ -33,27 +33,37 @@ const Indicator = styled(motion.span)`
 
 export default function Nav() {
   const homeMatch = useMatch("/");
+  const homeDetailMatch = useMatch("/:movieId");
   const upcomingMatch = useMatch("coming-soon");
+  const upcomingDetailMatch = useMatch("/coming-soon/:movieId");
   const nowplayingMatch = useMatch("now-playing");
+  const nowPlayingDetailMatch = useMatch("/now-playing/:movieId");
+  const detail = useParams().movieId;
 
   return (
     <NavContainer>
       <NavText>
         <Link to="/">
           popular
-          {homeMatch && <Indicator layoutId="indicator" />}
+          {(homeMatch || (homeDetailMatch && detail)) && (
+            <Indicator layoutId="indicator" />
+          )}
         </Link>
       </NavText>
       <NavText>
         <Link to="/coming-soon">
           coming soon
-          {upcomingMatch && <Indicator layoutId="indicator" />}
+          {(upcomingMatch || (upcomingDetailMatch && detail)) && (
+            <Indicator layoutId="indicator" />
+          )}
         </Link>
       </NavText>
       <NavText>
         <Link to="/now-playing">
           now playing
-          {nowplayingMatch && <Indicator layoutId="indicator" />}
+          {(nowplayingMatch || (nowPlayingDetailMatch && detail)) && (
+            <Indicator layoutId="indicator" />
+          )}
         </Link>
       </NavText>
     </NavContainer>
